@@ -1,16 +1,29 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import {ContractService, CustomerService, VehicleService} from "./generated-client";
 
 describe('AppComponent', () => {
+  let mockCustomerService: jasmine.SpyObj<CustomerService>
+  let mockVehicleService: jasmine.SpyObj<VehicleService>
+
   beforeEach(async () => {
+    mockCustomerService = jasmine.createSpyObj('CustomerService', ['createCustomer']);
+    mockVehicleService = jasmine.createSpyObj('VehicleService', ['createVehicle']);
+    mockCustomerService = jasmine.createSpyObj('ContractService', ['createContract']);
+
     await TestBed.configureTestingModule({
       imports: [
-        RouterTestingModule
+        RouterTestingModule,
       ],
       declarations: [
         AppComponent
       ],
+      providers: [
+        { provide: CustomerService, useValue: mockCustomerService },
+        { provide: VehicleService, useValue: mockVehicleService },
+        { provide: ContractService, useValue: mockCustomerService },
+      ]
     }).compileComponents();
   });
 
@@ -18,18 +31,5 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'test-leasing-app'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('test-leasing-app');
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('test-leasing-app app is running!');
   });
 });

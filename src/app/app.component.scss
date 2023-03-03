@@ -1,0 +1,15 @@
+.body {
+  padding: 16px;
+}
+
+.hidden-buttons {
+  display: block;
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+
+  .buttons-toggle {
+    display: flex;
+    justify-content: flex-end;
+  }
+}

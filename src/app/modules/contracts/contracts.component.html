@@ -1,0 +1,60 @@
+<h2 class="page-header">Leasing contracts</h2>
+<div class="container">
+  <div class="button-block right-area">
+    <button mat-raised-button color="primary" (click)="addNewContract()">New contract</button>
+  </div>
+  <div class="grid">
+    <ng-container *ngIf="dataSource$ | async as dataSource; else noDataSource">
+      <table mat-table
+             [dataSource]="dataSource"
+             class="mat-elevation-z8">
+        <!-- Contract No Column -->
+        <ng-container matColumnDef="contractNumber">
+          <th mat-header-cell *matHeaderCellDef> Contract No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.contractId}} </td>
+        </ng-container>
+        <!-- Customer Column -->
+        <ng-container matColumnDef="customer">
+          <th mat-header-cell *matHeaderCellDef> Customer </th>
+          <td mat-cell *matCellDef="let element"> {{element.customerName}} </td>
+        </ng-container>
+        <!-- Vehicle Column -->
+        <ng-container matColumnDef="vehicle">
+          <th mat-header-cell *matHeaderCellDef> Vehicle </th>
+          <td mat-cell *matCellDef="let element"> {{element.vehicleName}} </td>
+        </ng-container>
+        <!-- VIN Column -->
+        <ng-container matColumnDef="vin">
+          <th mat-header-cell *matHeaderCellDef> VIN </th>
+          <td mat-cell *matCellDef="let element"> {{element.vin || '-'}} </td>
+        </ng-container>
+        <!-- Monthly Rate Column -->
+        <ng-container matColumnDef="monthlyRate">
+          <th mat-header-cell *matHeaderCellDef> Monthly Rate </th>
+          <td mat-cell *matCellDef="let element"> {{element.monthlyRate}} </td>
+        </ng-container>
+        <!-- Vehicle Price Column -->
+        <ng-container matColumnDef="vehiclePrice">
+          <th mat-header-cell *matHeaderCellDef> Vehicle Price </th>
+          <td mat-cell *matCellDef="let element"> {{element.vehiclePrice}} </td>
+        </ng-container>
+        <!-- Details Column -->
+        <ng-container matColumnDef="details">
+          <th mat-header-cell *matHeaderCellDef> Details </th>
+          <td mat-cell *matCellDef="let element">
+            <fa-icon class="action-icon" (click)="showDetails(element.contractId)" [icon]="detailsIcon"></fa-icon>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </ng-container>
+
+    <ng-template #noDataSource>
+      <div class="no-items">
+        No contracts at this moment.
+      </div>
+    </ng-template>
+  </div>
+</div>

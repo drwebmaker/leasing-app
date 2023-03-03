@@ -1,0 +1,42 @@
+<form [formGroup]="form" (ngSubmit)="onSaveClick()">
+  <div class="form-group">
+    <mat-form-field appearance="fill">
+      <mat-label>First Name</mat-label>
+      <input matInput formControlName="firstName" required>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Last Name</mat-label>
+      <input matInput formControlName="lastName" required>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Birthday</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="birthday">
+      <mat-hint>DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+  <div class="buttons-area">
+    <div class="area-left">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        disableRipple="true"
+        class="primary-btn mr-2"
+        [disabled]="form.invalid"
+        id="save-form-button">
+        <span>Save</span>
+      </button>
+      <button mat-button color="primary" type="button" [mat-dialog-close]="false">
+        <span>Cancel</span>
+      </button>
+    </div>
+    <div class="area-right">
+      <button mat-raised-button color="warn" type="button" *ngIf="isEditMode" (click)="onDeleteClick()">
+        <span>Delete</span>
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,63 @@
+<form [formGroup]="form" (ngSubmit)="onSaveClick()">
+  <div class="form-group">
+    <mat-form-field appearance="fill" *ngIf="isEditMode">
+      <mat-label>Contracts No</mat-label>
+      <input matInput formControlName="contractNumber">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Monthly Rate</mat-label>
+      <input matInput formControlName="monthlyRate" required>
+      <span matSuffix>&nbsp; &#x20AC;</span>
+    </mat-form-field>
+    <div class="selector-details-editor">
+      <mat-form-field appearance="fill" class="selector-editor">
+        <mat-label>Customer</mat-label>
+        <mat-select formControlName="customer">
+          <mat-option [value]="null"></mat-option>
+          <mat-option *ngFor="let customer of customers$ | async; index as i" [value]="customer.id">
+            {{customer.firstName}} {{customer.lastName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <fa-icon *ngIf="form.controls['customer'].value" class="action-icon padding-left-10" [icon]="detailsIcon" (click)="showCustomerDetails()"></fa-icon>
+    </div>
+    <div class="selector-details-editor">
+      <mat-form-field appearance="fill" class="selector-editor">
+        <mat-label>Vehicle</mat-label>
+        <mat-select formControlName="vehicle">
+          <mat-option [value]="null"></mat-option>
+          <mat-option *ngFor="let vehicle of vehicles$ | async; index as i" [value]="vehicle.id">
+            {{vehicle.brand}} {{vehicle.model}} ({{vehicle.modelYear}})
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="vehicleControl.invalid">This vehicle assigned to another contract</mat-error>
+      </mat-form-field>
+      <fa-icon *ngIf="form.controls['vehicle'].value" class="action-icon padding-left-10" [icon]="detailsIcon" (click)="showVehicleDetails()"></fa-icon>
+    </div>
+
+
+  </div>
+
+  <div class="buttons-area">
+    <div class="area-left">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        disableRipple="true"
+        class="primary-btn mr-2"
+        [disabled]="form.invalid"
+        id="save-form-button">
+        <span>Save</span>
+      </button>
+      <button mat-button color="primary" type="button" [mat-dialog-close]="false">
+        <span>Cancel</span>
+      </button>
+    </div>
+    <div class="area-right">
+      <button mat-raised-button color="warn" type="button" *ngIf="isEditMode" (click)="deleteContract()">
+        <span>Delete</span>
+      </button>
+    </div>
+  </div>
+</form>

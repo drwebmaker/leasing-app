@@ -1,0 +1,60 @@
+<form [formGroup]="form" (ngSubmit)="onSaveClick()">
+  <div class="form-group">
+    <div class="selector-details-editor">
+      <mat-form-field appearance="fill" class="selector-editor">
+        <mat-label>Brand</mat-label>
+        <mat-select formControlName="brand">
+          <mat-option *ngFor="let brand of brands; index as i" [value]="brand.name">
+            {{brand.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="selector-details-editor">
+      <mat-form-field appearance="fill" class="selector-editor">
+        <mat-label>Model</mat-label>
+        <mat-select formControlName="model">
+          <mat-option *ngFor="let model of models$ | async; index as i" [value]="model.name">
+            {{model.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <mat-form-field appearance="fill">
+      <mat-label>Year</mat-label>
+      <input matInput formControlName="modelYear" required>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>VIN</mat-label>
+      <input matInput formControlName="vin">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Price</mat-label>
+      <input matInput formControlName="price" required>
+      <span matSuffix>&nbsp; &#x20AC;</span>
+    </mat-form-field>
+  </div>
+
+  <div class="buttons-area">
+    <div class="area-left">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        disableRipple="true"
+        class="primary-btn mr-2"
+        [disabled]="form.invalid"
+        id="save-form-button">
+        <span>Save</span>
+      </button>
+      <button mat-button color="primary" type="button" [mat-dialog-close]="false">
+        <span>Cancel</span>
+      </button>
+    </div>
+    <div class="area-right">
+      <button mat-raised-button color="warn" type="button" *ngIf="isEditMode" (click)="onDeleteClick()">
+        <span>Delete</span>
+      </button>
+    </div>
+  </div>
+</form>

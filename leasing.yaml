@@ -1,0 +1,711 @@
+openapi: 3.0.1
+info:
+  title: Leasing Service
+  version: "1.0"
+  termsOfService: "https://allane.com/terms/"
+  contact:
+    email: lease-service@allane.com
+  license:
+    name: Proprietary
+    url: "https://www.allane.com"
+servers:
+  - url: http://localhost:8081
+    description: local development server url
+
+paths:
+  /customer/{id}:
+    summary: customer api
+    get:
+      tags:
+        - Customer
+      operationId: getCustomerForId
+      description: get customer for id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: found customer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        404:
+          description: "customer not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      tags:
+        - Customer
+      operationId: updateCustomer
+      description: update customer for id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        204:
+          description: success
+        400:
+          description: "invalid data provided"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        404:
+          description: "customer not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags:
+        - Customer
+      operationId: deleteCustomer
+      description: delete customer for id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        204:
+          description: success
+        409:
+          description: "conflict - potential cause customer is still connected to contract"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        500:
+          description: "server error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /customer:
+    summary: customer api
+    post:
+      tags:
+        - Customer
+      operationId: createCustomer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+      responses:
+        201:
+          description: created customer
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Customer"
+        400:
+          description: "invalid data provided"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /customers:
+    description: customer api
+    get:
+      tags:
+        - Customer
+      operationId: getAllCustomers
+      parameters:
+        - name: page
+          description: "paginations could also be done by providing simply the query parameters page and size
+                        for example /customers?page=0&size=10"
+          required: true
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageRequest'
+      responses:
+        200:
+          description: get list of customers
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CustomerPageResponse"
+
+  /vehicle/{id}:
+    summary: get vehicle for id
+    get:
+      tags:
+        - Vehicle
+      operationId: getVehicleForId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: found vehicle
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Vehicle"
+        400:
+          description: "invalid data provided"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      tags:
+        - Vehicle
+      operationId: updateVehicle
+      description: update vehicle for id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+      responses:
+        204:
+          description: success
+        400:
+          description: "invalid data provided"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        404:
+          description: "customer not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags:
+        - Vehicle
+      operationId: deleteVehicle
+      description: delete vehicle for id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        204:
+          description: success
+        409:
+          description: "conflict - potential cause vehicle is still connected to contract"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        500:
+          description: "server error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /vehicle:
+    summary: vehicle api
+    post:
+      tags:
+        - Vehicle
+      operationId: createVehicle
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Vehicle'
+      responses:
+        201:
+          description: created vehicle
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Vehicle"
+        400:
+          description: "invalid data provided"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /vehicles:
+    description: vehicle api
+    get:
+      tags:
+        - Vehicle
+      operationId: getAllVehicles
+      parameters:
+        - name: page
+          description: "paginations could also be done by providing simply the query parameters page and size
+                              for example /vehicles?page=0&size=10"
+          required: true
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageRequest'
+      responses:
+        200:
+          description: get list of vehicles
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VehiclePageResponse"
+
+  /contract/{id}:
+    summary: get contract for id
+    get:
+      tags:
+        - Contract
+      operationId: getContractForId
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: found contract
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contract"
+        404:
+          description: "customer not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    put:
+      tags:
+        - Contract
+      operationId: updateContract
+      description: update contract for id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contract'
+      responses:
+        204:
+          description: success
+        400:
+          description: "invalid data provided"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        404:
+          description: "customer not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    delete:
+      tags:
+        - Contract
+      operationId: deleteContract
+      description: delete contract for id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        204:
+          description: success
+        409:
+          description: "conflict - potential cause contract is still connected to vehicle or customer"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        500:
+          description: "server error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /contract:
+    summary: contract api
+    post:
+      tags:
+        - Contract
+      operationId: createContract
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Contract'
+      responses:
+        201:
+          description: created contract
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contract"
+        400:
+          description: "invalid data provided"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /contractoverviews:
+    summary: contract overview api
+    get:
+      tags:
+        - ContractOverview
+      operationId: getContractOveriew
+      parameters:
+        - name: page
+          required: true
+          in: query
+          schema:
+            $ref: '#/components/schemas/PageRequest'
+
+      responses:
+        200:
+          description: contract overview list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContractOverviewPageResponse"
+        400:
+          description: "customer invalid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /brands:
+    summary: brand api
+    get:
+      tags:
+        - ModelAndBrand
+      operationId: getBrands
+      responses:
+        200:
+          description: brand list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Brand"
+        404:
+          description: "not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+  /brand/{id}/models:
+    summary: model api
+    get:
+      tags:
+        - ModelAndBrand
+      operationId: getModelsByBrandId
+      parameters:
+        - name: id
+          description: brand id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: model list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Model"
+        404:
+          description: "not found if brand id is not valid"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+
+components:
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        status:
+          type: integer
+        error:
+          type: string
+        path:
+          type: string
+      required:
+        - httpStatusCode
+        - httpReasonPhrase
+        - message
+        - timeStamp
+
+    Brand:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          maxLength: 25
+      required:
+        - name
+    Model:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          maxLength: 50
+        brandId:
+          type: integer
+          format: int64
+      required:
+        - name
+
+    PageRequest:
+      type: object
+      properties:
+        page:
+          type: integer
+        size:
+          type: integer
+        sort:
+          type: string
+          enum:
+            - UNSORTED
+            - ASC
+            - DESC
+      required:
+        - page
+        - size
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 134594
+        firstName:
+          type: string
+          maxLength: 50
+          example: Max
+        lastName:
+          type: string
+          maxLength: 50
+          example: Mustermann
+        birthDate:
+          type: string
+          format: date
+          example: '1998-02-23'
+      required:
+        - firstName
+        - lastName
+        - birthDate
+    Vehicle:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 494949494
+        brand:
+          type: string
+          maxLength: 25
+          example: BMW
+        model:
+          type: string
+          maxLength: 50
+          example: X5
+        modelYear:
+          type: integer
+          format: int32
+          example: 2022
+        vin:
+          description: Vehicle identification number when the vehicle is produced. During creation of contract it could be empty.
+          type: string
+          maxLength: 17
+          example: W0L000051T2123456
+        price:
+          type: number
+          format: decimal
+          example: 65356.30
+      required:
+        - brand
+        - model
+        - modelYear
+        - price
+
+    Contract:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 24944968
+        monthlyRate:
+          type: number
+          format: decimal
+          example: 456.33
+        vehicle:
+          $ref: '#/components/schemas/Vehicle'
+        customer:
+          $ref: '#/components/schemas/Customer'
+      required:
+        - monthlyRate
+        - vehicle
+        - customer
+
+    PageResponse:
+      type: object
+      properties:
+        page:
+          type: integer
+        size:
+          type: integer
+        numberOfPages:
+          type: integer
+        numberOfItems:
+          type: integer
+          format: int64
+        sort:
+          type: string
+          enum:
+            - UNSORTED
+            - ASC
+            - DESC
+      required:
+        - page
+        - size
+        - numberOfPages
+        - numberOfItems
+        - sort
+
+    VehicleItems:
+      type: object
+      properties:
+        overviewItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/Vehicle'
+
+    CustomerItems:
+      type: object
+      properties:
+        overviewItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer'
+    ContractOverviewItems:
+      type: object
+      properties:
+        overviewItems:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractOverview'
+
+    VehiclePageResponse:
+      allOf:
+        - $ref: "#/components/schemas/PageResponse"
+        - $ref: "#/components/schemas/VehicleItems"
+    CustomerPageResponse:
+      allOf:
+        - $ref: "#/components/schemas/PageResponse"
+        - $ref: "#/components/schemas/CustomerItems"
+
+    ContractOverviewPageResponse:
+      allOf:
+        - $ref: "#/components/schemas/PageResponse"
+        - $ref: "#/components/schemas/ContractOverviewItems"
+
+    ContractOverview:
+      type: object
+      properties:
+        contractId:
+          type: integer
+          format: int64
+          example: 24944968
+        customerId:
+          type: integer
+          format: int64
+          example: 134594
+        customerName:
+          type: string
+          maxLength: 100
+          description: concatenated name of the customer
+          example: Max Mustermann
+        vehicleId:
+          type: integer
+          format: int64
+          example: 494949494
+        vehicleName:
+          type: string
+          maxLength: 84
+          description: concatenated name of the vehicle
+          example: BMW X5 (2022)
+        vin:
+          type: string
+          maxLength: 17
+          description: vehicle identification number
+          example: W0L000051T2123456
+        monthlyRate:
+          type: number
+          format: decimal
+          example: 456.33
+        vehiclePrice:
+          type: number
+          format: decimal
+          example: 65356.30

@@ -2,26 +2,31 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.2.0.
 
+## Development API
+
+API created use Docker container. To run api follow to the steps:
+- The docker image can be pulled with the following command:
+`docker pull walterallane/leasing-api:latest`
+- The docker image can be started as follows:
+`docker run -p 8081:8080 --name leasing-api -d walterallane/leasing-api:latest`
+- After the container is up and running you could access the api over the swagger ui:
+`http://localhost:8081/swagger-ui/index.html`
+- The backend implementation is based on the OpenAPI specification which could be found here:
+https://github.com/walter-allane/leasing-contract/blob/main/leasing.yaml
+
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
-
-## Build
-
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
 ## Running unit tests
 
 Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
 
-## Running end-to-end tests
+## About project
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+In this project used Angular v13, Material UI, RxJs.
 
-## Further help
+For show all contracts, customers and vehicle used table.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+For detailed information and creat new contract, customer or vehicle used dialog.
+

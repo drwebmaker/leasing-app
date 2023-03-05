@@ -1,38 +1,17 @@
 <h2 mat-dialog-title>Details</h2>
 <mat-dialog-content class="mat-typography">
   <div class="details-dialog">
-    <div class="value-wrapper">
-      <label class="details-label">Id: </label>
-      <span class="details-value">{{data.id}}</span>
-    </div>
-    <div class="value-wrapper" *ngIf="data.firstName">
-      <label class="details-label">Name: </label>
-      <span class="details-value">{{data.firstName}} {{data.lastName}}</span>
-    </div>
-    <div class="value-wrapper" *ngIf="data.birthDate">
-      <label class="details-label">Birthdate: </label>
-      <span class="details-value">{{data.birthDate | date: 'dd/M/Y'}}</span>
-    </div>
-    <div class="value-wrapper" *ngIf="data.brand">
-      <label class="details-label">Brand: </label>
-      <span class="details-value">{{data.brand}}</span>
-    </div>
-    <div class="value-wrapper" *ngIf="data.model">
-      <label class="details-label">Model: </label>
-      <span class="details-value">{{data.model}}</span>
-    </div>
-    <div class="value-wrapper" *ngIf="data.modelYear">
-      <label class="details-label">Year: </label>
-      <span class="details-value">{{data.modelYear}}</span>
-    </div>
-    <div class="value-wrapper" *ngIf="data.price">
-      <label class="details-label">Price: </label>
-      <span class="details-value">{{data.price}}</span>
-    </div>
-    <div class="value-wrapper" *ngIf="data.vin">
-      <label class="details-label">VIN: </label>
-      <span class="details-value">{{data.vin}}</span>
-    </div>
+    <ng-container *ngFor="let field of fieldsConfig">
+      <div class="value-wrapper">
+        <label class="details-label">{{field.label}}: </label>
+        <ng-container *ngIf="!field.type">
+          <span class="details-value">{{dataSource[field.fieldName]}}</span>
+        </ng-container>
+        <ng-container *ngIf="field.type === 'Date'">
+          <span class="details-value">{{dataSource[field.fieldName] | date: 'dd/M/Y'}}</span>
+        </ng-container>
+      </div>
+    </ng-container>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions>

@@ -25,7 +25,7 @@ export class CustomersComponent implements  OnDestroy {
   public customers$ = this.dataSourceSubject.pipe(
     takeUntil(this.destroy$),
     switchMap(() => this.customersService.getAllCustomers(this.initPageRequest)),
-    map((data) => data.overviewItems)
+    map((data) => data.overviewItems?.length ? data.overviewItems : null)
   )
 
   constructor(

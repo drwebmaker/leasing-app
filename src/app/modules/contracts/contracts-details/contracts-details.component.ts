@@ -91,7 +91,28 @@ export class ContractsDetailsComponent implements OnInit {
   public showCustomerDetails() {
     this.customerService.getCustomerForId(this.form.get('customer')?.value).subscribe((data) => {
       this.dialogRef = this.dialog.open(DetailsDialogComponent, {
-        data: data
+        data: {
+          dataSource: data,
+          config: [
+            {
+              label: 'ID',
+              fieldName: 'id'
+            },
+            {
+              label: 'First Name',
+              fieldName: 'firstName'
+            },
+            {
+              label: 'Last Name',
+              fieldName: 'lastName'
+            },
+            {
+              label: 'BirthDate',
+              fieldName: 'birthDate',
+              type: 'Date'
+            }
+          ]
+        }
       });
     })
   }
@@ -99,7 +120,35 @@ export class ContractsDetailsComponent implements OnInit {
   public showVehicleDetails() {
     this.vehicleService.getVehicleForId(this.form.get('vehicle')?.value).subscribe((data) => {
       this.dialogRef = this.dialog.open(DetailsDialogComponent, {
-        data: data
+        data: {
+          dataSource: data,
+          config: [
+            {
+              label: 'ID',
+              fieldName: 'id'
+            },
+            {
+              label: 'Brand',
+              fieldName: 'brand'
+            },
+            {
+              label: 'Model',
+              fieldName: 'model'
+            },
+            {
+              label: 'Year',
+              fieldName: 'modelYear'
+            },
+            {
+              label: 'Price',
+              fieldName: 'price'
+            },
+            {
+              label: 'VIN',
+              fieldName: 'vin'
+            }
+          ]
+        }
       });
     })
   }

@@ -1,7 +1,7 @@
 <h2 class="page-header">Vehicles</h2>
 <div class="container">
   <div class="button-block right-area">
-    <button mat-raised-button color="primary" (click)="addNewVehicle()">New customer</button>
+    <button mat-raised-button color="primary" (click)="addNewVehicle()">New Vehicle</button>
   </div>
   <div class="grid">
     <ng-container *ngIf="vehicles$ | async as dataSource; else noDataSource">
@@ -53,7 +53,7 @@
 
     <ng-template #noDataSource>
       <div class="no-items">
-        No customers at this moment.
+        No vehicles at this moment.
       </div>
     </ng-template>
   </div>
